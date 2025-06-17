@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>利用記録フォーム</title>
+  <link rel="icon" href="icon192.png" />
+  <meta name="theme-color" content="#3C82F6" />
+  <link rel="manifest" href="manifest.json" />
+  <style>
+    body {
+      font-family: 'Helvetica Neue', sans-serif;
+      background-color: #f5f6fa;
+      margin: 0;
+      padding: 2rem;
+    }
+
+    h1 {
+      text-align: center;
+      color: #3C82F6;
+      margin-bottom: 2rem;
+    }
+
+    form {
+      background-color: #fff;
+      max-width: 600px;
+      margin: auto;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-top: 1rem;
+      text-align: left;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 0.6rem;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      box-sizing: border-box;
+      background-color: #fff;
+    }
+
+    .switch-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1rem;
+    }
+
+    .switch-label {
+      font-size: 1rem;
+      color: #333;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 28px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #ccc;
+      border-radius: 34px;
+      transition: 0.4s;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 22px;
+      width: 22px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      border-radius: 50%;
+      transition: 0.4s;
+    }
+
+    input:checked + .slider {
+      background-color: #3C82F6;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(22px);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    button[type="submit"] {
+      margin-top: 2rem;
+      width: 100%;
+      padding: 0.8rem;
+      background-color: #3C82F6;
+      color: white;
+      border: none;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #2a65c7;
+    }
+
+    #confirmation {
+      margin-top: 2rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: #e8f0fe;
+      padding: 1rem;
+      border-radius: 8px;
+      color: #1a3d7c;
+    }
+  </style>
+</head>
+<body>
+  <h1>利用記録フォーム</h1>
+
+  <form id="recordForm">
+    <label>利用日<input type="date" name="date" required /></label>
+
+    <label>利用者名
+      <select name="user" id="userSelect" required>
+        <option value="">選択してください</option>
+      </select>
+    </label>
+
+    <div class="switch-row">
+      <label class="switch-label" for="absentCheck">欠席</label>
+      <label class="switch">
+        <input type="checkbox" name="absent" id="absentCheck">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <label id="reasonLabel" class="hidden">欠席理由<textarea name="reason"></textarea></label>
+
+    <div id="attendanceFields">
+      <label>利用開始時間<input type="time" name="start" /></label>
+      <label>利用終了時間<input type="time" name="end" /></label>
+      <label>利用時間（自動計算）<input type="text" name="duration" readonly /></label>
+
+      <div class="switch-row">
+        <label class="switch-label" for="pickup">迎え</label>
+        <label class="switch">
+          <input type="checkbox" name="pickup" id="pickup">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="switch-row">
+        <label class="switch-label" for="drop">送り</label>
+        <label class="switch">
+          <input type="checkbox" name="drop" id="drop">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="switch-row">
+        <label class="switch-label" for="bento">弁当</label>
+        <label class="switch">
+          <input type="checkbox" name="bento" id="bento">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="switch-row">
+        <label class="switch-label" for="drink">フリードリンク</label>
+        <label class="switch">
+          <input type="checkbox" name="drink" id="drink">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <label>記録者名
+      <select name="recorder" id="recorderSelect" required>
+        <option value="">選択してください</option>
+      </select>
+    </label>
+
+    <button type="submit">送信</button>
+  </form>
+
+  <div id="confirmation" class="hidden"></div>
+</body>
+</html>
