@@ -201,5 +201,98 @@
   </form>
 
   <div id="confirmation" class="hidden"></div>
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const userSelect = document.getElementById("userSelect");
+    const recorderSelect = document.getElementById("recorderSelect");
+    const absentCheck = document.getElementById("absentCheck");
+    const reasonLabel = document.getElementById("reasonLabel");
+    const attendanceFields = document.getElementById("attendanceFields");
+    const startInput = document.querySelector('input[name="start"]');
+    const endInput = document.querySelector('input[name="end"]');
+    const durationInput = document.querySelector('input[name="duration"]');
+
+    const users = ["佐藤一郎", "鈴木花子", "田中太郎"];
+    const recorders = ["末藤清", "髙﨑直人", "三笠和男"];
+
+    users.forEach(name => {
+      const option = document.createElement("option");
+      option.value = name;
+      option.textContent = name;
+      userSelect.appendChild(option);
+    });
+
+    recorders.forEach(name => {
+      const option = document.createElement("option");
+      option.value = name;
+      option.textContent = name;
+      recorderSelect.appendChild(option);
+    });
+
+    absentCheck.addEventListener("change", function () {
+      const isAbsent = this.checked;
+      reasonLabel.classList.toggle("hidden", !isAbsent);
+      attendanceFields.style.display = isAbsent ? "none" : "block";
+    });
+
+    function calculateDuration() {
+      const start = startInput.value;
+      const end = endInput.value;
+      if (start && end) {
+        const [startHour, startMinute] = start.split(":"...).map(Number);
+        const [endHour, endMinute] = end.split(":"...).map(Number);
+        let duration = (endHour + endMinute / 60) - (startHour + startMinute / 60);
+        if (duration < 0) duration += 24;
+        durationInput.value = duration.toFixed(1);
+      }
+    }
+
+    startInput.addEventListener("change", calculateDuration);
+    endInput.addEventListener("change", calculateDuration);
+
+    // 以下に fetch() の送信処理を追加
+    const form = document.getElementById("recordForm");
+    const confirmation = document.getElementById("confirmation");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const formData = {
+        date: form.date.value,
+        user: form.user.value,
+        absent: form.absent.checked,
+        reason: form.reason?.value || "",
+        start: form.start?.value || "",
+        end: form.end?.value || "",
+        duration: form.duration?.value || "",
+        pickup: form.pickup?.checked || false,
+        drop: form.drop?.checked || false,
+        bento: form.bento?.checked || false,
+        drink: form.drink?.checked || false,
+        recorder: form.recorder.value
+      };
+
+      fetch("https://script.google.com/macros/s/AKfycbx9ApiKYUdPm-0aTRLtuhzlVJjt_Qp_wvQuRvZ6ENG-EDHjLPbwFp657KqX1dccTTAe/exec", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+      })
+      .then(res => res.text())
+      .then(text => {
+        confirmation.textContent = text;
+        confirmation.classList.remove("hidden");
+        form.reset();
+        reasonLabel.classList.add("hidden");
+        attendanceFields.style.display = "block";
+      })
+      .catch(err => {
+        confirmation.textContent = "送信中にエラーが発生しました。";
+        confirmation.classList.remove("hidden");
+      });
+    });
+  });
+  </script>
 </body>
 </html>
