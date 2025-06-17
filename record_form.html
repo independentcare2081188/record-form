@@ -271,13 +271,13 @@
         recorder: form.recorder.value
       };
 
-      fetch("https://script.google.com/macros/s/AKfycbyrODUclJd2-Wt_1NAUoqDSou1Sc2X2kP2EbxAY93NbiB59F4BTCp32zN62og_TaDzk/exec", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(formData)
-      })
+      fetch("https://script.google.com/macros/s/AKfycbzbOcREO9yjDJ-zVaceodNtFAWJVUHsrbxjBhsQgxE7sPJpOKr-O0orDdoay5nLpiYm/exec", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(formData)
+})
       .then(res => res.text())
       .then(text => {
         confirmation.textContent = text;
