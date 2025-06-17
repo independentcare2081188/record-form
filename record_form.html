@@ -212,8 +212,8 @@
     const endInput = document.querySelector('input[name="end"]');
     const durationInput = document.querySelector('input[name="duration"]');
 
-    const users = ["佐藤一郎", "鈴木花子", "田中太郎"];
-    const recorders = ["末藤清", "髙﨑直人", "三笠和男"];
+    const users = ["竹下英典", "甲斐田淳子", "今岡雅信", "友添慎二", "古賀恵一", "森敏浩", "上原義幸", "竹本小雪", "塚本健介", "福田尚貢", "住吉英次", "山口幸雄", "森明彦", "蒲原秀行", "坂本杏美", "筒井侑香", "藤木好美", "江橋美優", "藤沼勝彦"];
+    const recorders = ["髙﨑直人", "三笠和男", "杉野孝行", "綿名隼人", "吉田史子", "下川樹里", "末藤清", "大石恵美", "村田めぐみ", "中山ゆき"];
 
     users.forEach(name => {
       const option = document.createElement("option");
@@ -239,8 +239,8 @@
       const start = startInput.value;
       const end = endInput.value;
       if (start && end) {
-        const [startHour, startMinute] = start.split(":"...).map(Number);
-        const [endHour, endMinute] = end.split(":"...).map(Number);
+        const [startHour, startMinute] = start.split(":" ).map(Number);
+        const [endHour, endMinute] = end.split(":" ).map(Number);
         let duration = (endHour + endMinute / 60) - (startHour + startMinute / 60);
         if (duration < 0) duration += 24;
         durationInput.value = duration.toFixed(1);
@@ -250,7 +250,6 @@
     startInput.addEventListener("change", calculateDuration);
     endInput.addEventListener("change", calculateDuration);
 
-    // 以下に fetch() の送信処理を追加
     const form = document.getElementById("recordForm");
     const confirmation = document.getElementById("confirmation");
 
